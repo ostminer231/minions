@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Панель технического специалиста по (добавь функцией)</h1>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="#tickets" data-bs-toggle="tab">Свободные заявки</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#my_tickets" data-bs-toggle="tab">Мои заявки</a>
+    </li>
+</ul>
+<br>
+<div class="tab-content mt-3">
+    <div class="tab-pane fade show active" id="tickets">
+        <form class="row g-3 mb-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Поиск по названию...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option selected>Сортировка</option>
+                    <option value="1">По приоритету</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100">Применить</button>
+            </div>
+        </form>
+
+<br>        
+        <!-- Таблица заявок с возможностью изменения статусов -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Автор</th>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Описание</th>
+                    <th>Исполнитель</th>
+                    <th>Статус</th>
+                    <th>Приоритет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Office Word</td>
+                    <td>Обслуживание</td>
+                    <td>Поставьте мне word</td>
+                    <td>—</td>
+                    <td class="fw-bold text-waiting">Ожидание</td>
+                    <td class="fw-bold text-done">Низкий</td>
+                    <td class="">
+                        <button class="btn btn-done btn-primary" >Принять</button> 
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Компьютер</td>
+                    <td>Ремонт</td>
+                    <td>Не работает</td>
+                    <td>—</td>
+                    <td class="fw-bold text-waiting">Ожидание</td>
+                    <td class="fw-bold text-warning">Средний</td>
+                    <td class="">
+                        <button class="btn btn-done btn-primary" >Принять</button> 
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Нет компьютера</td>
+                    <td>Установка</td>
+                    <td>Поставьте мне компьютер на стол, че я как дурак</td>
+                    <td>—</td>
+                    <td class="fw-bold text-waiting">Ожидание</td>
+                    <td class="fw-bold text-fail">Высокий</td>
+                    <td class="">
+                        <button class="btn btn-done btn-primary" >Принять</button> 
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Office Word</td>
+                    <td>Обслуживание</td>
+                    <td>Поставьте мне word</td>
+                    <td>—</td>
+                    <td class="fw-bold text-waiting">Ожидание</td>
+                    <td class="fw-bold text-done">Низкий</td>
+                    <td class="">
+                        <button class="btn btn-done btn-primary" >Принять</button> 
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Мои заявки -->
+    <div class="tab-pane fade" id="my_tickets">
+        <form class="row g-3 mb-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Поиск по названию...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option selected>Сортировка</option>
+                    <option value="1">По приоритету</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100">Применить</button>
+            </div>
+        </form>
+
+<br>        
+        <!-- Таблица заявок с возможностью изменения статусов -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Автор</th>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Описание</th>
+                    <th>Исполнитель</th>
+                    <th>Статус</th>
+                    <th>Приоритет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Office Word</td>
+                    <td>Обслуживание</td>
+                    <td>Поставьте мне word</td>
+                    <td>Сидоров М.А.</td>
+                    <td class="fw-bold text-primary">В работе</td>
+                    <td class="fw-bold text-done">Низкий</td>
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="4">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+
+                        <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="4">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30"> 
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Компьютер</td>
+                    <td>Ремонт</td>
+                    <td>Не работает</td>
+                    <td>Сидоров М.А.</td>
+                    <td class="fw-bold text-primary">В работе</td>
+                    <td class="fw-bold text-warning">Средний</td>
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="4">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+
+                        <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="4">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30"> 
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Нет компьютера</td>
+                    <td>Установка</td>
+                    <td>Поставьте мне компьютер на стол, че я как дурак</td>
+                    <td>Сидоров М.А.</td>
+                    <td class="fw-bold text-primary">В работе</td>
+                    <td class="fw-bold text-fail">Высокий</td>
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="4">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+
+                        <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="4">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30"> 
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>Иванов Л.Б.</td>
+                    <td>Office Word</td>
+                    <td>Обслуживание</td>
+                    <td>Поставьте мне word</td>
+                    <td>Сидоров М.А.</td>
+                    <td class="fw-bold text-primary">В работе</td>
+                    <td class="fw-bold text-done">Низкий</td>
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="4">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+
+                        <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="4">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30"> 
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования заявки -->
+<div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTicketModalLabel">Редактировать заявку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования заявки -->
+                <form id="editTicketForm">
+                    <div class="mb-3">
+                        <label for="ticketType" class="form-label">Тип</label>
+                        <select class="form-select" id="ticketType" name="ticketType">
+                            <option value="1">Установка</option>
+                            <option value="2">Ремонт</option>
+                            <option value="3">Обслуживание</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketStatus" class="form-label">Статус</label>
+                        <select class="form-select" id="ticketStatus" name="ticketStatus">
+                            <option value="1">Ожидание</option>
+                            <option value="2">В работе</option>
+                            <option value="3">Завершено</option>
+                            <option value="4">Просрочено</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveTicketChanges">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для удаления заявки -->
+<div class="modal fade" id="deleteTicketModal" tabindex="-1" aria-labelledby="deleteTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTicketModalLabel">Подтверждение отказа от заявки</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите отказаться от этой заявки?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteTicket">Отказаться</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block head %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Обработчик для кнопки "Сохранить изменения" в модальном окне заявки
+        document.getElementById('saveTicketChanges').addEventListener('click', function() {
+            // Здесь можно добавить логику для сохранения изменений
+            alert('Изменения сохранены!');
+            var editTicketModal = document.getElementById('editTicketModal');
+            var modal = bootstrap.Modal.getInstance(editTicketModal);
+            modal.hide();
+        });
+
+        // Обработчик для кнопки "Отказаться" в модальном окне заявки
+        document.getElementById('confirmDeleteTicket').addEventListener('click', function() {
+            // Здесь можно добавить логику для удаления заявки
+            alert('Заявка удалена!');
+            var deleteTicketModal = document.getElementById('deleteTicketModal');
+            var modal = bootstrap.Modal.getInstance(deleteTicketModal);
+            modal.hide();
+        });
+
+    });
+</script>
+{% endblock %}

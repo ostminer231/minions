@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Панель администратора</h1>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="#tickets" data-bs-toggle="tab">Управление заявками</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#users" data-bs-toggle="tab">Управление пользователями</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#stats" data-bs-toggle="tab">Статистика</a>
+    </li>
+</ul>
+<br>
+<div class="tab-content mt-3">
+    <div class="tab-pane fade show active" id="tickets">
+
+        <form class="row g-3 mb-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Поиск по названию...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option selected>Фильтр по статусу</option>
+                    <option value="1">Ожидание</option>
+                    <option value="2">В работе</option>
+                    <option value="3">Завершено</option>
+                    <option value="4">Просрочено</option>
+
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option selected>Сортировка</option>
+                    <option value="1">По типу</option>
+                    <option value="2">По приоритету</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100">Применить</button>
+            </div>
+        </form>
+
+<br>        
+<!-- {% for i in range(context.tickets[-1]['id']) %}
+    <p>{{context.tickets[i]['id']}}</p>
+{% endfor %} -->
+        <!-- Таблица заявок с возможностью изменения статусов -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Автор</th>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Описание</th>
+                    <th>Исполнитель</th>
+                    <th>Статус</th>
+                    <th>Приоритет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <script>
+                    console.log(context)
+                </script> -->
+                {% for i in range(context.tickets[-1]['id']) %}
+                <tr>
+                    <td>{{context.tickets[i]['id']}}</td>
+                    <td>{{context.tickets[i]['username']}}</td>
+                    <td>{{context.tickets[i]['title']}}</td>
+                    {% if context.tickets[i]['type_id'] == 1 %}
+                    <td>Ремонт</td>
+                    {% elif context.tickets[i]['type_id'] == 2 %}
+                    <td>Обслуживание</td>
+                    {% else %}
+                    <td>Установка</td>
+                    {% endif %}
+                    <td>{{context.tickets[i]['description']}}</td>
+                    <td>{{context.tickets[i]['fixername']}}</td>
+                    <td class="fw-bold text-waiting">{{context.tickets[i]['status']}}</td>
+                    
+                    {% if context.tickets[i]['priority'] == "Высокий" %}
+                    <td class="fw-bold text-fail">{{context.tickets[i]['priority']}}</td>
+                    {% elif context.tickets[i]['priority'] == "Средний" %}
+                    <td class="fw-bold text-warning">{{context.tickets[i]['priority']}}</td>
+                    {% else %}
+                    <td class="fw-bold text-done">{{context.tickets[i]['priority']}}</td>
+                    {% endif %}
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-ticket" id="button_edit" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="{{context.tickets[i]['id']}}">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+                        <button class="btn btn-link p-0 delete-ticket" id="button_delete" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="{{context.tickets[i]['id']}}">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- УПРАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯМИ -->
+    <div class="tab-pane fade" id="users">
+
+<div class="formdiv">
+    <form class="row gx-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Поиск по ФИО...">
+        </div>
+        <div class="col-md-4">
+            <select class="form-select">
+                <option selected disabled>Сортировка</option>
+                <option value="1">По приоритету</option>
+                <option value="2">По роли</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary w-100">Применить</button>
+        </div>
+    </form>
+    <div class="col-md-4 d-flex justify-content-end">
+        <!-- данную кнопку нужно сделать с правого края -->
+        <button class="btn btn-done" data-bs-toggle="modal" data-bs-target="#addUserModal" >Добавить</button> 
+    </div>
+</div>
+
+<br>
+
+
+        <!-- Список пользователей -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО</th>
+                    <th>Почта</th>
+                    <th>Должность</th>
+                    <th>Приоритет</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(context.users[-1]['id']) %}
+                <tr>
+                    <td>{{context.users[i]['id']}}</td>
+                    <td>{{context.users[i]['username']}}</td>
+                    <td>{{context.users[i]['email']}}</td>
+                    <td>{{context.users[i]['title']}}</td>
+                    {% if context.users[i]['priority'] == "Высокий" %}
+                    <td class="fw-bold text-fail">{{context.users[i]['priority']}}</td>
+                    {% elif context.users[i]['priority'] == "Средний" %}
+                    <td class="fw-bold text-warning">{{context.users[i]['priority']}}</td>
+                    {% else %}
+                    <td class="fw-bold text-done">{{context.users[i]['priority']}}</td>
+                    {% endif %}
+                    <td class="d-flex align-items-center justify-content-start gap-2">
+                        <button class="btn btn-link p-0 edit-user" data-bs-toggle="modal" data-bs-target="#editUserModal" data-user-id="1">
+                            <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+                        <button class="btn btn-link p-0 delete-user" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-user-id="1">
+                            <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="stats">
+
+        <!-- Вывод графиков и сводной информации -->
+        <p>Здесь будет статистика.</p>
+        <!-- Пример графика -->
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования заявки -->
+<div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTicketModalLabel">Редактировать заявку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования заявки -->
+                <form id="editTicketForm">
+                    <div class="mb-3">
+                        <label for="ticketTitle" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="ticketTitle" name="ticketTitle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketType" class="form-label">Тип</label>
+                        <input type="text" class="form-control" id="ticketType" name="ticketType">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketDescription" class="form-label">Описание</label>
+                        <textarea class="form-control" id="ticketDescription" name="ticketDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketExecutor" class="form-label">Исполнитель</label>
+                        <input type="text" class="form-control" id="ticketExecutor" name="ticketExecutor">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketStatus" class="form-label">Статус</label>
+                        <select class="form-select" id="ticketStatus" name="ticketStatus">
+                            <option value="1">Ожидание</option>
+                            <option value="2">В работе</option>
+                            <option value="3">Завершено</option>
+                            <option value="4">Просрочено</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketPriority" class="form-label">Приоритет</label>
+                        <select class="form-select" id="ticketPriority" name="ticketPriority">
+                            <option value="1">Низкий</option>
+                            <option value="2">Средний</option>
+                            <option value="3">Высокий</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveTicketChanges">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для удаления заявки -->
+<div class="modal fade" id="deleteTicketModal" tabindex="-1" aria-labelledby="deleteTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTicketModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить эту заявку?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteTicket">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования пользователя -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Редактировать пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования пользователя -->
+                <form id="editUserForm">
+                    <div class="mb-3">
+                        <label for="userFullName" class="form-label">ФИО</label>
+                        <input type="text" class="form-control" id="userFullName" name="userFullName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userEmail" class="form-label">Почта</label>
+                        <input type="email" class="form-control" id="userEmail" name="userEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPosition" class="form-label">Должность</label>
+                        <input type="text" class="form-control" id="userPosition" name="userPosition">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userRole" class="form-label">Роль</label>
+                        <input type="text" class="form-control" id="userRole" name="userRole">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPriority" class="form-label">Приоритет</label>
+                        <select class="form-select" id="userPriority" name="userPriority">
+                            <option value="1">Низкий</option>
+                            <option value="2">Средний</option>
+                            <option value="3">Высокий</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveUserChanges">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для удаления пользователя -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить этого пользователя?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteUser">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для добавления пользователя -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Добавить пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для добавления пользователя -->
+                <form id="addUserForm">
+                    <div class="mb-3">
+                        <label for="newUserFullName" class="form-label">ФИО</label>
+                        <input type="text" class="form-control" id="newUserFullName" name="newUserFullName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newUserEmail" class="form-label">Почта</label>
+                        <input type="email" class="form-control" id="newUserEmail" name="newUserEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newUserPosition" class="form-label">Должность</label>
+                        <input type="text" class="form-control" id="newUserPosition" name="newUserPosition">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newUserRole" class="form-label">Роль</label>
+                        <input type="text" class="form-control" id="newUserRole" name="newUserRole">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newUserPriority" class="form-label">Приоритет</label>
+                        <select class="form-select" id="newUserPriority" name="newUserPriority">
+                            <option value="1">Низкий</option>
+                            <option value="2">Средний</option>
+                            <option value="3">Высокий</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveNewUser">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+<!-- Подключение Chart.js для графиков -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь'],
+                datasets: [{
+                    label: 'Количество заявок',
+                    data: [12, 20, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Обработчик для кнопки "Сохранить изменения" в модальном окне заявки
+        document.getElementById('saveTicketChanges').addEventListener('click', function() {
+            // Здесь можно добавить логику для сохранения изменений
+            alert('Изменения сохранены!');
+            var editTicketModal = document.getElementById('editTicketModal');
+            var modal = bootstrap.Modal.getInstance(editTicketModal);
+            modal.hide();
+        });
+
+        // Обработчик для кнопки "Сохранить изменения" в модальном окне пользователя
+        document.getElementById('saveUserChanges').addEventListener('click', function() {
+            // Здесь можно добавить логику для сохранения изменений
+            alert('Изменения сохранены!');
+            var editUserModal = document.getElementById('editUserModal');
+            var modal = bootstrap.Modal.getInstance(editUserModal);
+            modal.hide();
+        });
+
+        // Обработчик для кнопки "Удалить" в модальном окне заявки
+        document.getElementById('confirmDeleteTicket').addEventListener('click', function() {
+            // Здесь можно добавить логику для удаления заявки
+            alert('Заявка удалена!');
+            var deleteTicketModal = document.getElementById('deleteTicketModal');
+            var modal = bootstrap.Modal.getInstance(deleteTicketModal);
+            modal.hide();
+        });
+
+        // Обработчик для кнопки "Удалить" в модальном окне пользователя
+        document.getElementById('confirmDeleteUser').addEventListener('click', function() {
+            // Здесь можно добавить логику для удаления пользователя
+            alert('Пользователь удален!');
+            var deleteUserModal = document.getElementById('deleteUserModal');
+            var modal = bootstrap.Modal.getInstance(deleteUserModal);
+            modal.hide();
+        });
+
+        // Обработчик для кнопки "Сохранить" в модальном окне добавления пользователя
+        document.getElementById('saveNewUser').addEventListener('click', function() {
+            // Здесь можно добавить логику для сохранения нового пользователя
+            alert('Пользователь добавлен!');
+            var addUserModal = document.getElementById('addUserModal');
+            var modal = bootstrap.Modal.getInstance(addUserModal);
+            modal.hide();
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+.bg-primary {
+    background-color: #2B5E89 !important;
+}
+
+.bg-secondary {
+    background-color: #3772FF !important;
+}
+
+.btn-done {
+    background-color: #008917;
+    border: 1px solid #008917 !important;
+    color: white;
+    width: 200px !important;
+}
+.btn-done:hover{
+    background-color: white;
+    color: #008917;
+    transition: all ease 0.2s;
+}
+.w-100{
+    width: 200px !important;
+}
+.btn-primary {
+    background-color: #3772FF;
+    border: 1px solid #3772FF !important;
+    color: white;
+}
+.btn-primary:hover{
+    background-color: white;
+    color: #3772FF;
+    transition: all ease 0.2s;
+}
+
+.text-waiting {
+    color: #A2A2A2 !important;
+}
+.text-working {
+    color: #3772FF !important;
+}
+
+.text-done {
+    color: #008917 !important;
+}
+
+.text-fail {
+    color: #FF3737 !important;
+    font-weight: 600;
+}
+
+.text-warning {
+    color: #E6A709 !important;
+}
+
+#button_edit img, #button_delete img{
+    cursor: pointer !important;
+}
+
+#button_edit:hover, #button_delete:hover{
+    opacity: 0.5;
+    transition: all ease 0.2s;
+    cursor: pointer !important;
+}
+
+.w-50 {
+    width: 100px !important;
+    padding-right: 0 !important;
+}
+
+*{
+    cursor: default;
+}
+
+.nav-link, select{
+    cursor: pointer !important;
+}
+
+input{
+    cursor: text !important;
+}
+
+.formdiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formdiv form{
+    width: 80%;
+}

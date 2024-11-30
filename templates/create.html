@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Создать заявку{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Создать заявку</h1>
+<form>
+    <div class="mb-3">
+        <label for="title" class="form-label">Название заявки</label>
+        <input type="text" class="form-control" id="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Описание</label>
+        <textarea class="form-control" id="description" rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="type" class="form-label">Тип заявки</label>
+        <select class="form-select" id="type" required>
+            <option value="">Выберите тип</option>
+            <option value="1">Обслуживание</option>
+            <option value="2">Инцидент</option>
+            <option value="3">Запрос на изменение</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Ваш Email</label>
+        <input type="email" class="form-control" id="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать заявку</button>
+</form>
+{% endblock %}

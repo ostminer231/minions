@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Список заявок{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список заявок</h1>
+<br>
+<div class="formdiv">
+    <form class="row gx-3">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Поиск по названию...">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>Фильтр по статусу</option>
+                <option value="1">Ожидание</option>
+                <option value="2">В работе</option>
+                <option value="3">Завершено</option>
+                <option value="4">Отклонено</option>
+
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>Сортировка</option>
+                <option value="1">По типу</option>
+                <option value="2">По приоритету</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">Применить</button>
+        </div>
+    </form>
+    <div class="col-md-4 d-flex justify-content-end">
+        <!-- данную кнопку нужно сделать с правого края -->
+        <button class="btn btn-done" data-bs-toggle="modal" data-bs-target="#createTicketModal" >Создать</button> 
+    </div>  
+</div>
+
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Автор</th>
+            <th>Название</th>
+            <th>Тип</th>
+            <th>Описание</th>
+            <th>Исполнитель</th>
+            <th>Статус</th>
+            <th>Приоритет</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Иванов Л.Б.</td>
+            <td>Office Word</td>
+            <td>Обслуживание</td>
+            <td>Поставьте мне word</td>
+            <td>Сидоров М.А.</td>
+            <td class="fw-bold text-waiting">Ожидание</td>
+            <td class="fw-bold text-done">Низкий</td>
+            <td class="d-flex align-items-center justify-content-start gap-2">
+                <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="1">
+                    <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+                <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="1">
+                    <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Иванов Л.Б.</td>
+            <td>Компьютер</td>
+            <td>Ремонт</td>
+            <td>Не работает</td>
+            <td>Сидоров М.А.</td>
+            <td class="fw-bold text-secondary">В работе</td>
+            <td class="fw-bold text-warning">Средний</td>
+            <td class="d-flex align-items-center justify-content-start gap-2">
+                <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="1">
+                    <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+                <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="1">
+                    <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td>Иванов Л.Б.</td>
+            <td>Нет компьютера</td>
+            <td>Установка</td>
+            <td>Поставьте мне компьютер на стол, че я как дурак</td>
+            <td>Сидоров М.А.</td>
+            <td class="fw-bold text-done">Завершено</td>
+            <td class="fw-bold text-fail">Высокий</td>
+            <td class="d-flex align-items-center justify-content-start gap-2">
+                <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="1">
+                    <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+                <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="1">
+                    <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>4</td>
+            <td>Иванов Л.Б.</td>
+            <td>Office Word</td>
+            <td>Обслуживание</td>
+            <td>Поставьте мне word</td>
+            <td>Сидоров М.А.</td>
+            <td class="fw-bold text-fail">Отклонено</td>
+            <td class="fw-bold text-done">Низкий</td>
+            <td class="d-flex align-items-center justify-content-start gap-2">
+                <button class="btn btn-link p-0 edit-ticket" data-bs-toggle="modal" data-bs-target="#editTicketModal" data-ticket-id="1">
+                    <img src="../static/edit.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+                <button class="btn btn-link p-0 delete-ticket" data-bs-toggle="modal" data-bs-target="#deleteTicketModal" data-ticket-id="1">
+                    <img src="../static/delete.svg" alt="svg не поддерживается" width="30" height="30">
+                </button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<!-- Модальное окно для редактирования заявки -->
+<div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTicketModalLabel">Редактировать заявку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования заявки -->
+                <form id="editTicketForm">
+                    <div class="mb-3">
+                        <label for="ticketTitle" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="ticketTitle" name="ticketTitle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketType" class="form-label">Тип</label>
+                        <select class="form-select" id="ticketType" name="ticketType">
+                            <option value="1">Установка</option>
+                            <option value="2">Ремонт</option>
+                            <option value="3">Обслуживание</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketDescription" class="form-label">Описание</label>
+                        <textarea class="form-control" id="ticketDescription" name="ticketDescription" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveTicketChanges">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для создания заявки -->
+<div class="modal fade" id="createTicketModal" tabindex="-1" aria-labelledby="createTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createTicketModalLabel">Создать заявку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для создания заявки -->
+                <form id="createTicketForm">
+                    <div class="mb-3">
+                        <label for="newTicketTitle" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="newTicketTitle" name="newTicketTitle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ticketType" class="form-label">Тип</label>
+                        <select class="form-select" id="ticketType" name="ticketType">
+                            <option value="1">Установка</option>
+                            <option value="2">Ремонт</option>
+                            <option value="3">Обслуживание</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newTicketDescription" class="form-label">Описание</label>
+                        <textarea class="form-control" id="newTicketDescription" name="newTicketDescription" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveNewTicket">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для удаления заявки -->
+<div class="modal fade" id="deleteTicketModal" tabindex="-1" aria-labelledby="deleteTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTicketModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить эту заявку?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteTicket">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

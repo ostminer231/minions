@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Просмотр заявки{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Заявка #{{ ticket_id }}</h1>
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Не работает принтер</h5>
+        <p class="card-text">Описание проблемы: Принтер не отвечает на запросы печати.</p>
+        <p class="card-text"><b>Пользователь:</b> Иванов Иван</p>
+        <p class="card-text"><b>Статус:</b> <span class="badge bg-warning">В работе</span></p>
+        <p class="card-text"><b>Приоритет:</b> Высокий</p>
+    </div>
+</div>
+<h3>Комментарии</h3>
+<ul class="list-group mb-3">
+    <li class="list-group-item">Специалист: Замените кабель принтера.</li>
+    <li class="list-group-item">Пользователь: Проверил, проблема не исчезла.</li>
+    <!-- Добавьте больше комментариев для примера -->
+    <li class="list-group-item">Специалист: Проверьте подключение к сети.</li>
+</ul>
+<form>
+    <div class="mb-3">
+        <label for="comment" class="form-label">Добавить комментарий</label>
+        <textarea class="form-control" id="comment" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+{% endblock %}
