@@ -36,8 +36,20 @@ def login():
             else:
                 return redirect(url_for("index"))
         else:
-            flash("Неверный логин или пароль", "error")
-            return render_template("login.html")
+            conn = get_db_connection()
+            user = conn.execute('SELECT * FROM fixers WHERE email = ? AND password = ?', (username, password)).fetchone()
+            conn.close()
+
+            if user:
+                session['email'] = user['email']
+                session['role'] = user['role_id']
+                if user['role_id'] == 5:
+                    return redirect(url_for("admin"))
+                else:
+                    return redirect(url_for("tech"))
+            else:
+                flash("Неверный логин или пароль", "error")
+                return render_template("login.html")
         
     
     return render_template("login.html")
@@ -98,7 +110,7 @@ def admin():
     ticketsArr = []
     usersArr = []
     conn = get_db_connection()
-    tickets = conn.execute('SELECT tickets.title, tickets.description, tickets.status, tickets.priority, tickets.id, tickets.type_id, users.username, fixers.username AS fixername FROM tickets JOIN users ON users.id = tickets.user_id JOIN fixers ON fixers.id = tickets.fixer_id').fetchall()
+    tickets = conn.execute('SELECT tickets.title, tickets.description, tickets.fixer_id, tickets.user_id, tickets.status, tickets.priority, tickets.id, tickets.type_id, users.username, fixers.username AS fixername FROM tickets JOIN users ON users.id = tickets.user_id JOIN fixers ON fixers.id = tickets.fixer_id').fetchall()
     for tick in tickets:
         ticketsArr.append(tick)
     users = conn.execute('SELECT users.username, users.id, users.email, users.priority, specializes.title FROM users JOIN specializes ON specializes.id = specialize_id').fetchall()
@@ -109,6 +121,25 @@ def admin():
         "tickets": ticketsArr, "users": usersArr
     }
     return render_template("admin.html", context=context)
+
+# @app.route("/update_ticket")
+# def update_ticket():
+#     conn = get_db_connection()
+    
+#     conn.execute('''
+#             UPDATE tickets 
+#             SET title = ?, 
+#                 description = ?,
+#                 status = ?,
+#                 updated_at = DATETIME('now')
+#             WHERE id = ?
+#         ''', (
+#             body.title,
+#             data['description'],
+#             data['status'],
+#             id
+#         ))
+#     conn.close()
 
 @app.route("/tech")
 def tech():
