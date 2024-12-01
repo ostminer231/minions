@@ -12,20 +12,17 @@ def get_db_connection():
 
 @app.route("/index")
 def index():
+    user_id = session['id']
     ticketsArr = []
-    usersArr = []
     conn = get_db_connection()
-    tickets = conn.execute('SELECT tickets.title, tickets.description, tickets.fixer_id, tickets.user_id, tickets.status, tickets.priority, tickets.id, tickets.type_id, users.username, fixers.username AS fixername FROM tickets JOIN users ON users.id = tickets.user_id JOIN fixers ON fixers.id = tickets.fixer_id').fetchall()
+    tickets = conn.execute('SELECT tickets.title, tickets.description, tickets.fixer_id, tickets.user_id, tickets.status, tickets.priority, tickets.id, tickets.type_id, users.username, fixers.username AS fixername FROM tickets WHERE user_id = ? JOIN users ON users.id = tickets.user_id JOIN fixers ON fixers.id = tickets.fixer_id', (user_id)).fetchall()
     for tick in tickets:
         ticketsArr.append(tick)
-    users = conn.execute('SELECT users.username, users.id, users.email, users.priority, specializes.title FROM users JOIN specializes ON specializes.id = specialize_id').fetchall()
-    for user in users:
-        usersArr.append(user)
     conn.close()
     context = {
-        "tickets": ticketsArr, "users": usersArr
+        "tickets": ticketsArr
     }
-    return render_template("index.html", tickets=tickets)
+    return render_template("index.html", context=context)
 
 @app.route("/", methods=["GET", "POST"])
 def login():
