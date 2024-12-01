@@ -12,10 +12,19 @@ def get_db_connection():
 
 @app.route("/index")
 def index():
-    # Фильтрация и сортировка заявок (пример)
+    ticketsArr = []
+    usersArr = []
     conn = get_db_connection()
-    tickets = conn.execute('SELECT * FROM tickets').fetchall()
+    tickets = conn.execute('SELECT tickets.title, tickets.description, tickets.fixer_id, tickets.user_id, tickets.status, tickets.priority, tickets.id, tickets.type_id, users.username, fixers.username AS fixername FROM tickets JOIN users ON users.id = tickets.user_id JOIN fixers ON fixers.id = tickets.fixer_id').fetchall()
+    for tick in tickets:
+        ticketsArr.append(tick)
+    users = conn.execute('SELECT users.username, users.id, users.email, users.priority, specializes.title FROM users JOIN specializes ON specializes.id = specialize_id').fetchall()
+    for user in users:
+        usersArr.append(user)
     conn.close()
+    context = {
+        "tickets": ticketsArr, "users": usersArr
+    }
     return render_template("index.html", tickets=tickets)
 
 @app.route("/", methods=["GET", "POST"])
@@ -31,6 +40,7 @@ def login():
         if user:
             session['email'] = user['email']
             session['role'] = user['role_id']
+            session['id'] = user['id']
             if user['role_id'] == 5:
                 return redirect(url_for("admin"))
             else:
